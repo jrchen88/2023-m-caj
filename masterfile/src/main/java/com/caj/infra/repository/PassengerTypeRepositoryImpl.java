@@ -3,7 +3,9 @@ package com.caj.infra.repository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.caj.infra.repository.po.PassengerTypePo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +36,16 @@ public class PassengerTypeRepositoryImpl implements PassengerTypeRepository {
 	}
 
 	/**
-	 * 取得折扣率
-	 */
-	@Override
-	public BigDecimal findPassengerDiscount(String passengerType) {
-		return 	passengerTypeDao.findById(passengerType).get().getDiscount();
-	}
+         * 取得折扣率
+         */
+        @Override
+        public BigDecimal findPassengerDiscount(String passengerType) {
+         Optional<PassengerTypePo> result = passengerTypeDao.findById(passengerType);
+         if (result.isPresent()) {
+          return result.get().getDiscount();
+         };
+         return null;
+        }
 
 
 }
